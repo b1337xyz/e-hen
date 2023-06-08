@@ -33,14 +33,15 @@ def download(s, url, filepath):
     if os.path.exists(filepath):
         print(filepath)
         return
+    print(f'\033[1;32m{filepath}\033[m')
 
+    # TODO: progress bar
     tempfile = f'{filepath}.temp'
     r = get(s, url, stream=True)
     with open(tempfile, 'wb') as f:
         f.write(r.content)
 
     os.rename(tempfile, filepath)
-    print(f'\033[1;32m{filepath}\033[m')
 
 
 def get_galleries(s, url):
@@ -67,7 +68,7 @@ def create_session():
     s = requests.Session()
 
     # https://stackoverflow.com/questions/23013220/max-retries-exceeded-with-url-in-requests
-    retry = Retry(connect=3, backoff_factor=0.5)
+    retry = Retry(total=5, connect=3, backoff_factor=0.5)
     adapter = HTTPAdapter(max_retries=retry)
     s.mount('http://', adapter)
     s.mount('https://', adapter)
@@ -160,9 +161,10 @@ def main(urls):
 
 if __name__ == '__main__':
     opts, args = parse_arguments()
+
+    # TODO: change this
     if opts.cookie_file:
         copy(opts.cookie_file, COOKIE_FILE)
-
     if not os.path.exists(COOKIE_FILE):
         raise FileNotFoundError(COOKIE_FILE)
 
