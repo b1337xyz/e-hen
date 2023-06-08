@@ -2,12 +2,16 @@ import os
 import re
 
 UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101 Firefox/102.0'  # noqa: E501
-HOME = os.getenv('HOME')
-CACHE_DIR = os.getenv('XDG_CACHE_HOME', os.path.join(HOME, '.cache'))
-DL_DIR = os.getenv('XDG_DOWNLOAD_DIR', os.path.join(HOME, 'Downloads/e-hentai'))
-COOKIE_FILE = os.path.join(CACHE_DIR, 'e-hentai.cookie')
-HISTORY = os.path.join(CACHE_DIR, 'e-hentai_history')
 MAX_ATTEMPS = 5
+
+HOME = os.getenv('HOME')
+ROOT = os.path.dirname(os.path.realpath(__file__))
+DL_DIR = os.getenv('XDG_DOWNLOAD_DIR', os.path.join(HOME, 'Downloads'))
+CACHE_DIR = os.getenv('XDG_CACHE_HOME', os.path.join(HOME, '.cache'))
+
+DL_DIR = os.path.join(DL_DIR, 'e-hentai')
+HISTORY = os.path.join(CACHE_DIR, 'e-hentai_history')
+COOKIE_FILE = os.path.join(ROOT, 'e-hentai.cookie')
 
 gallery_regex = re.compile(r'href=\"https://e-hentai\.org/g/(\d*/[^/]*)/')
 page_regex = re.compile(r'[\?\&]page=(\d+)')

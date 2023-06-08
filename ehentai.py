@@ -8,6 +8,7 @@ from http.cookiejar import MozillaCookieJar
 from pathlib import Path
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
+from shutil import copy
 import requests
 
 requests.packages.urllib3.disable_warnings()
@@ -159,6 +160,12 @@ def main(urls):
 
 if __name__ == '__main__':
     opts, args = parse_arguments()
+    if opts.cookie_file:
+        copy(opts.cookie_file, COOKIE_FILE)
+
+    if not os.path.exists(COOKIE_FILE):
+        raise FileNotFoundError(COOKIE_FILE)
+
     if opts.input_file:
         with open(opts.input_file, 'r') as f:
             args = f.readlines()
