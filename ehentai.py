@@ -68,7 +68,7 @@ def create_session():
     s = requests.Session()
 
     # https://stackoverflow.com/questions/23013220/max-retries-exceeded-with-url-in-requests
-    retry = Retry(total=5, connect=3, backoff_factor=0.5)
+    retry = Retry(connect=3, backoff_factor=0.8)
     adapter = HTTPAdapter(max_retries=retry)
     s.mount('http://', adapter)
     s.mount('https://', adapter)
