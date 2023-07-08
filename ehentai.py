@@ -68,7 +68,7 @@ def create_session():
     s = requests.Session()
 
     # https://stackoverflow.com/questions/23013220/max-retries-exceeded-with-url-in-requests
-    retry = Retry(connect=3, backoff_factor=0.8)
+    retry = Retry(connect=3, backoff_factor=0.5)
     adapter = HTTPAdapter(max_retries=retry)
     s.mount('http://', adapter)
     s.mount('https://', adapter)
@@ -139,7 +139,7 @@ def download_gallery(s, url):
 
                 filename = img.split('/')[-1].split('?')[0]
                 filename, ext = os.path.splitext(filename)
-                filename = '{}_page-{}{}'.format(filename, curr_page + 1, ext)
+                filename = '{}_p{}{}'.format(filename, curr_page + 1, ext)
                 filepath = os.path.join(dl_dir, filename)
                 try:
                     download(s, img, filepath)
